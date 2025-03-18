@@ -1,0 +1,346 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SubtitleEdit.Avalonia.ViewModels"
+        xmlns:controls="using:Avalonia.Controls"
+        xmlns:custom="using:SubtitleEdit.Avalonia.Controls"
+        xmlns:converters="using:SubtitleEdit.Avalonia.Converters"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SubtitleEdit.Avalonia.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="{Binding Title}"
+        WindowStartupLocation="CenterScreen"
+        KeyDown="OnKeyDown">
+
+    <Window.Resources>
+        <converters:BoolToGeometryConverter x:Key="BoolToGeometryConverter"/>
+        <StreamGeometry x:Key="OpenIcon">M12 4L12 12M12 4L8 8M12 4L16 8M4 12L4 18C4 19.1046 4.89543 20 6 20L18 20C19.1046 20 20 19.1046 20 18L20 12</StreamGeometry>
+        <StreamGeometry x:Key="SaveIcon">M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16L21 8V19C21 20.1046 20.1046 21 19 21ZM7 3V8H15V3H7Z</StreamGeometry>
+        <StreamGeometry x:Key="PlayIcon">M8 5V19L19 12L8 5Z</StreamGeometry>
+        <StreamGeometry x:Key="PauseIcon">M6 4H10V20H6V4ZM14 4H18V20H14V4Z</StreamGeometry>
+        <StreamGeometry x:Key="StopIcon">M6 6H18V18H6V6Z</StreamGeometry>
+        <StreamGeometry x:Key="PreviousIcon">M15 19L8 12L15 5V19Z</StreamGeometry>
+        <StreamGeometry x:Key="NextIcon">M9 5L16 12L9 19V5Z</StreamGeometry>
+        <StreamGeometry x:Key="SpellCheckIcon">M12 3L4 9V21H20V9L12 3Z</StreamGeometry>
+        <StreamGeometry x:Key="TranslateIcon">M12.87 15.07L10.33 12.56L10.36 12.53C12.1 10.59 13.34 8.36 14.07 6H17V4H10V2H8V4H1V6H12.17C11.5 7.92 10.44 9.75 9 11.35C8.07 10.32 7.3 9.19 6.69 8H4.69C5.42 9.63 6.42 11.17 7.67 12.56L2.58 17.58L4 19L9 14L12.11 17.11L12.87 15.07ZM18.5 10H16.5L12 22H14L15.04 19H19.96L21 22H23L18.5 10ZM15.71 17L17.5 12.67L19.29 17H15.71Z</StreamGeometry>
+        <StreamGeometry x:Key="StyleIcon">M3 17V19H9V17H3ZM3 5V7H13V5H3ZM13 21V19H21V17H13V15H11V21H13ZM7 9V11H3V13H7V15H9V9H7ZM21 13V11H11V13H21ZM15 9H17V7H21V5H17V3H15V9Z</StreamGeometry>
+        <StreamGeometry x:Key="SettingsIcon">M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15ZM12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15ZM12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z</StreamGeometry>
+        <StreamGeometry x:Key="AddIcon">M12 4V20M4 12H20</StreamGeometry>
+        <StreamGeometry x:Key="DeleteIcon">M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M3 7H21M8 7V4C8 3.44772 8.44772 3 9 3H15C15.5523 3 16 3.44772 16 4V7</StreamGeometry>
+        <StreamGeometry x:Key="SplitIcon">M12 4V20M4 12H20</StreamGeometry>
+        <StreamGeometry x:Key="MergeIcon">M12 4V20M4 12H20</StreamGeometry>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Main Menu -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}"/>
+                <Separator/>
+                <MenuItem Header="_Exit" Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Undo" Command="{Binding UndoCommand}"/>
+                <MenuItem Header="_Redo" Command="{Binding RedoCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_View"/>
+            <MenuItem Header="_Tools"/>
+            <MenuItem Header="_Help"/>
+        </Menu>
+
+        <!-- Toolbar -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+            <Button Margin="2" ToolTip.Tip="Open File" Command="{Binding OpenCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource OpenIcon}"/>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Save" Command="{Binding SaveCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource SaveIcon}"/>
+            </Button>
+            <Separator Margin="5,0"/>
+            <Button Margin="2" ToolTip.Tip="Play/Pause" Command="{Binding PlayPauseCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon>
+                    <PathIcon.Data>
+                        <MultiBinding Converter="{StaticResource BoolToGeometryConverter}">
+                            <Binding Path="IsPlaying"/>
+                            <Binding Source="{StaticResource PlayIcon}"/>
+                            <Binding Source="{StaticResource PauseIcon}"/>
+                        </MultiBinding>
+                    </PathIcon.Data>
+                </PathIcon>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Stop" Command="{Binding StopCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource StopIcon}"/>
+            </Button>
+            <Separator Margin="5,0"/>
+            <Button Margin="2" ToolTip.Tip="Previous Subtitle" Command="{Binding PreviousSubtitleCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource PreviousIcon}"/>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Next Subtitle" Command="{Binding NextSubtitleCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource NextIcon}"/>
+            </Button>
+            <Separator Margin="5,0"/>
+            <Button Margin="2" ToolTip.Tip="Add Subtitle" Command="{Binding AddSubtitleCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource AddIcon}"/>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Delete Subtitle" Command="{Binding DeleteSubtitleCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource DeleteIcon}"/>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Split Subtitle" Command="{Binding SplitSubtitleCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource SplitIcon}"/>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Merge Subtitles" Command="{Binding MergeSubtitlesCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource MergeIcon}"/>
+            </Button>
+            <Separator Margin="5,0"/>
+            <Button Margin="2" ToolTip.Tip="Spell Check" Command="{Binding SpellCheckCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource SpellCheckIcon}"/>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Translate" Command="{Binding TranslateCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource TranslateIcon}"/>
+            </Button>
+            <Button Margin="2" ToolTip.Tip="Style" Command="{Binding StyleCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource StyleIcon}"/>
+            </Button>
+            <Separator Margin="5,0"/>
+            <Button Margin="2" ToolTip.Tip="Settings" Command="{Binding SettingsCommand}" IsVisible="{Binding !IsLoading}">
+                <PathIcon Data="{StaticResource SettingsIcon}"/>
+            </Button>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+
+                <!-- Subtitle List -->
+                <controls:DataGrid Grid.Row="0"
+                         ItemsSource="{Binding Subtitles}"
+                         SelectedItem="{Binding SelectedSubtitle}"
+                         AutoGenerateColumns="False"
+                         IsReadOnly="False"
+                         SelectionMode="Single"
+                         GridLinesVisibility="All"
+                         BorderThickness="1"
+                         BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                         Background="{DynamicResource SystemControlBackgroundBaseHighBrush}">
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn Header="#" 
+                                          Binding="{Binding Number}"
+                                          Width="50"
+                                          FontFamily="Consolas"
+                                          IsReadOnly="True"/>
+                        <controls:DataGridTextColumn Header="Start Time" 
+                                          Binding="{Binding StartTime, StringFormat=hh\\:mm\\:ss\\.fff, Mode=TwoWay}"
+                                          Width="100"
+                                          FontFamily="Consolas"/>
+                        <controls:DataGridTextColumn Header="End Time" 
+                                          Binding="{Binding EndTime, StringFormat=hh\\:mm\\:ss\\.fff, Mode=TwoWay}"
+                                          Width="100"
+                                          FontFamily="Consolas"/>
+                        <controls:DataGridTextColumn Header="Duration" 
+                                          Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss\\.fff}"
+                                          Width="100"
+                                          FontFamily="Consolas"
+                                          IsReadOnly="True"/>
+                        <controls:DataGridTextColumn Header="Text" 
+                                          Binding="{Binding Text, Mode=TwoWay}"
+                                          Width="*"/>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+
+                <!-- Waveform/Spectrogram -->
+                <Grid Grid.Row="1" Height="100" Background="#1E1E1E">
+                    <TextBlock Text="Waveform View" 
+                             Foreground="Gray"
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- Subtitle Edit Panel -->
+                <Grid Grid.Row="2" Margin="0,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Timing Controls -->
+                    <Grid Grid.Row="0" Width="300" Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Start Time:" Margin="0,0,5,5"/>
+                        <custom:TimeCodeTextBox Grid.Row="0" Grid.Column="1" 
+                                               Text="{Binding SelectedSubtitle.StartTime, StringFormat=hh\\:mm\\:ss\\.fff, Mode=TwoWay}"
+                                               Margin="0,0,0,5"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="End Time:" Margin="0,0,5,5"/>
+                        <custom:TimeCodeTextBox Grid.Row="1" Grid.Column="1"
+                                               Text="{Binding SelectedSubtitle.EndTime, StringFormat=hh\\:mm\\:ss\\.fff, Mode=TwoWay}"
+                                               Margin="0,0,0,5"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Duration:" Margin="0,0,5,5"/>
+                        <custom:TimeCodeTextBox Grid.Row="2" Grid.Column="1"
+                                               Text="{Binding SelectedSubtitle.Duration, StringFormat=hh\\:mm\\:ss\\.fff}"
+                                               IsReadOnly="True"
+                                               Margin="0,0,0,5"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Video Position:" Margin="0,0,5,0"/>
+                        <custom:TimeCodeTextBox Grid.Row="3" Grid.Column="1"
+                                               Text="{Binding VideoPosition, StringFormat=hh\\:mm\\:ss\\.fff}"
+                                               IsReadOnly="True"/>
+                    </Grid>
+
+                    <!-- Text Editor -->
+                    <TextBox Grid.Row="1" 
+                            Text="{Binding SelectedSubtitle.Text}"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            Margin="0,0,0,5"/>
+
+                    <!-- Translation Editor -->
+                    <TextBox Grid.Row="2" 
+                            Text="{Binding SelectedSubtitle.Translation}"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            Watermark="Translation"/>
+                </Grid>
+            </Grid>
+
+            <!-- GridSplitter -->
+            <GridSplitter Grid.Column="1" 
+                         Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                         ResizeDirection="Columns"
+                         Width="5"/>
+
+            <!-- Video Preview -->
+            <Grid Grid.Column="2" Margin="5,0,0,0" MinWidth="320">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Video Display -->
+                <Border Grid.Row="0" 
+                        Background="Black"
+                        MinHeight="180"
+                        CornerRadius="4">
+                    <Grid>
+                        <TextBlock Text="Video Preview" 
+                                  Foreground="White"
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                        <!-- Video Content will be added here -->
+                    </Grid>
+                </Border>
+
+                <!-- Video Controls -->
+                <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding CurrentVideoTime}" 
+                                 Margin="2,0"
+                                 FontFamily="Consolas"/>
+                        <Slider Grid.Column="1" 
+                                Value="{Binding VideoPosition}"
+                                Maximum="{Binding VideoDuration}"
+                                Margin="5,0"/>
+                        <TextBlock Grid.Column="2" 
+                                 Text="{Binding TotalVideoTime}" 
+                                 Margin="2,0"
+                                 FontFamily="Consolas"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" 
+                              HorizontalAlignment="Center" 
+                              Margin="0,5,0,0">
+                        <Button Command="{Binding PlayPauseCommand}" 
+                                Margin="2,0"
+                                Classes="primary">
+                            <PathIcon>
+                                <PathIcon.Data>
+                                    <MultiBinding Converter="{StaticResource BoolToGeometryConverter}">
+                                        <Binding Path="IsPlaying"/>
+                                        <Binding Source="{StaticResource PlayIcon}"/>
+                                        <Binding Source="{StaticResource PauseIcon}"/>
+                                    </MultiBinding>
+                                </PathIcon.Data>
+                            </PathIcon>
+                        </Button>
+                        <Button Command="{Binding StopCommand}" 
+                                Margin="2,0"
+                                Classes="primary">
+                            <PathIcon Data="{StaticResource StopIcon}"/>
+                        </Button>
+                        <Separator Classes="Vertical" Margin="5,0"/>
+                        <StackPanel Orientation="Horizontal" 
+                                  VerticalAlignment="Center">
+                            <TextBlock Text="Volume:" 
+                                     VerticalAlignment="Center" 
+                                     Margin="2,0"/>
+                            <Slider Value="{Binding Volume}" 
+                                    Width="100"
+                                    Minimum="0"
+                                    Maximum="1"
+                                    Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!-- Status Bar -->
+        <Grid Grid.Row="3" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding StatusMessage}" 
+                      Margin="5,2"/>
+            <TextBlock Grid.Column="1" 
+                      Text="{Binding VideoTimeDisplay}" 
+                      Margin="5,2"/>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.RowSpan="4" 
+              Background="#80000000" 
+              IsVisible="{Binding IsLoading}">
+            <TextBlock Text="Loading..." 
+                      Foreground="White" 
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Window> 

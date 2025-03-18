@@ -1,0 +1,4 @@
+<MenuItem Header="Tools">
+    <MenuItem Header="OCR Settings" 
+              Command="{Binding ShowOcrSettingsCommand}"/>
+</MenuItem> 

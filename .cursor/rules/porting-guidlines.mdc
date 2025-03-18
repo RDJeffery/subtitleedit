@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+- @.cursorrules - C++ Development Rules
+- [PORTING_PLAN.md](mdc:Cursor/PORTING_PLAN.md) - Overall Porting Plan
+- [PORTING_GUIDELINES.md](mdc:Cursor/PORTING_GUIDELINES.md) - This document
+- [PORTING_PLAN.md](mdc:Cursor/PORTING_PLAN.md) #project-breakdown - Project Breakdown
+- [PORTING_PLAN.md](mdc:Cursor/PORTING_PLAN.md) #todo-list - Todo List
+- [PORTING_PLAN.md](mdc:Cursor/PORTING_PLAN.md) #known-challenges - Known Challenges
+- [PORTING_PLAN.md](mdc:Cursor/PORTING_PLAN.md) #timeline - Timeline
+- [PORTING_PLAN.md](mdc:Cursor/PORTING_PLAN.md) #next-steps - Next Steps
+
+
+- You can use markdown but dont have to

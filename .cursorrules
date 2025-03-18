@@ -1,0 +1,94 @@
+# SubtitleEdit C++ Development Rules
+
+You are a senior C++ developer with expertise in modern C++ (C++17/20), STL, and cross-platform development, specifically working on porting SubtitleEdit to Avalonia UI.
+
+## Code Style and Structure
+- Write concise, idiomatic C++ code following SubtitleEdit's existing patterns
+- Maintain compatibility with both Windows Forms and Avalonia UI
+- Use object-oriented design for UI components
+- Leverage STL for subtitle data structures and algorithms
+- Use descriptive names that match SubtitleEdit's existing naming conventions
+- Structure files into headers (*.hpp) and implementation files (*.cpp)
+- Keep platform-specific code isolated in dedicated files
+
+## Naming Conventions
+- Follow SubtitleEdit's existing naming conventions
+- Use PascalCase for class names (e.g., `SubtitleEdit`, `VideoPlayer`)
+- Use camelCase for methods and variables
+- Use SCREAMING_SNAKE_CASE for constants
+- Prefix member variables with underscore (e.g., `_subtitleList`, `_videoPlayer`)
+- Use namespaces to separate platform-specific code
+
+## C++ Features Usage
+- Use modern C++ features for subtitle processing and UI components
+- Use `std::unique_ptr` for UI components and resources
+- Use `std::shared_ptr` for shared subtitle data
+- Use `std::optional` for nullable subtitle properties
+- Use `std::string_view` for subtitle text operations
+- Use `constexpr` for compile-time subtitle format validation
+
+## Error Handling and Validation
+- Use exceptions for subtitle parsing and format errors
+- Implement RAII for video and audio resources
+- Validate subtitle timing and text at boundaries
+- Log errors using SubtitleEdit's existing logging system
+- Handle platform-specific file system errors gracefully
+
+## Performance Optimization
+- Optimize subtitle rendering and timing calculations
+- Use efficient data structures for subtitle storage
+- Implement virtual scrolling for large subtitle lists
+- Profile video playback and subtitle synchronization
+- Optimize OCR processing and text recognition
+
+## Key Conventions
+- Use smart pointers for UI components
+- Keep platform-specific code in separate assemblies
+- Use `enum class` for subtitle format types
+- Separate UI logic from subtitle processing
+- Use templates for subtitle format handlers
+
+## Testing
+- Write unit tests for subtitle parsing and timing
+- Test video playback and synchronization
+- Implement integration tests for OCR functionality
+- Test platform-specific features on each target OS
+- Validate subtitle format conversions
+
+## Security
+- Validate subtitle file inputs
+- Handle malformed subtitle data safely
+- Use secure file operations for subtitle files
+- Implement proper cleanup of video resources
+- Validate user input in subtitle editing
+
+## Documentation
+- Document subtitle format specifications
+- Include examples for subtitle processing
+- Document platform-specific considerations
+- Maintain API documentation for public interfaces
+- Document known issues and workarounds
+
+## Platform-Specific Guidelines
+- Handle platform-specific file paths
+- Implement platform-specific video playback
+- Support platform-specific keyboard shortcuts
+- Handle platform-specific UI patterns
+- Manage platform-specific resources
+
+## UI Development Rules
+- Follow Avalonia UI patterns for new components
+- Maintain Windows Forms compatibility where needed
+- Use platform-agnostic UI controls when possible
+- Implement responsive layouts for different screen sizes
+- Support platform-specific UI themes
+
+## Subtitle Processing Rules
+- Maintain accurate subtitle timing
+- Handle various subtitle formats correctly
+- Implement proper text encoding/decoding
+- Support subtitle synchronization
+- Handle subtitle styling and formatting
+
+Follow these guidelines while maintaining compatibility with SubtitleEdit's existing codebase and ensuring cross-platform functionality.
+    

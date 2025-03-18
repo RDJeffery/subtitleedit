@@ -1,0 +1,75 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SubtitleEdit.Avalonia.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SubtitleEdit.Avalonia.Views.OcrSettingsView"
+        Title="OCR Settings"
+        Width="600" Height="400"
+        WindowStartupLocation="CenterOwner">
+    
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" Margin="10">
+        <!-- Language Selection -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="OCR Language:" Margin="0,0,0,5"/>
+            <ComboBox Items="{Binding AvailableLanguages}"
+                      SelectedItem="{Binding SelectedLanguage}"
+                      HorizontalAlignment="Stretch"/>
+        </StackPanel>
+
+        <!-- Engine Mode -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,10">
+            <TextBlock Text="Engine Mode:" Margin="0,0,0,5"/>
+            <ComboBox SelectedItem="{Binding EngineMode}">
+                <ComboBoxItem Content="Legacy (3)"/>
+                <ComboBoxItem Content="LSTM (3)"/>
+                <ComboBoxItem Content="Legacy + LSTM (3)"/>
+                <ComboBoxItem Content="Default (3)"/>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- PSM Mode -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,10">
+            <TextBlock Text="Page Segmentation Mode:" Margin="0,0,0,5"/>
+            <ComboBox SelectedItem="{Binding PsmMode}">
+                <ComboBoxItem Content="Automatic page segmentation (3)"/>
+                <ComboBoxItem Content="Assume single column of text (6)"/>
+                <ComboBoxItem Content="Assume uniform block of text (6)"/>
+                <ComboBoxItem Content="Assume single uniform block of text (6)"/>
+                <ComboBoxItem Content="Assume single line of text (6)"/>
+                <ComboBoxItem Content="Assume single word of text (8)"/>
+                <ComboBoxItem Content="Assume single word in circle (9)"/>
+                <ComboBoxItem Content="Assume single character (10)"/>
+                <ComboBoxItem Content="Sparse text with OSD (11)"/>
+                <ComboBoxItem Content="Raw line (12)"/>
+                <ComboBoxItem Content="Raw line with OSD (13)"/>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Status -->
+        <StackPanel Grid.Row="3" Margin="0,0,0,10">
+            <TextBlock Text="Status:" Margin="0,0,0,5"/>
+            <TextBlock Text="{Binding IsInitialized, Converter={StaticResource BoolToStatusConverter}}"/>
+        </StackPanel>
+
+        <!-- Error Message -->
+        <TextBlock Grid.Row="4" 
+                   Text="{Binding LastError}"
+                   Foreground="Red"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,10"/>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="5" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+                    Spacing="10">
+            <Button Content="Initialize"
+                    Command="{Binding InitializeCommand}"
+                    IsEnabled="{Binding !IsInitialized}"/>
+            <Button Content="Refresh Languages"
+                    Command="{Binding RefreshLanguagesCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window> 

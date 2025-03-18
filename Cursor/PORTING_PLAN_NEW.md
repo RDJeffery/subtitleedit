@@ -43,33 +43,26 @@ This document outlines the plan for porting SubtitleEdit from Windows Forms to A
    - [x] Set up dependency injection
    - [x] Create base styles and themes
 
-### Phase 2: Main UI Components ✅
+### Phase 2: Main UI Components 🟨
 1. **Main Window**
    - [x] Port main window layout
    - [x] Implement menu system
-   - [x] Port toolbar functionality
-   - [x] Handle window management
+   - [ ] Port toolbar functionality
+   - [ ] Handle window management
 
 2. **Subtitle Editor**
-   - [x] Port subtitle grid/list view
-   - [x] Implement text editing functionality
-   - [x] Port timing controls
-   - [x] Handle keyboard shortcuts
+   - [ ] Port subtitle grid/list view
+   - [ ] Implement text editing
+   - [ ] Port timing controls
+   - [ ] Handle keyboard shortcuts
 
 3. **Video Player**
-   - [x] Port video player component
-   - [x] Implement playback controls
-   - [x] Handle video synchronization
-   - [x] Port frame navigation
+   - [ ] Port video player component
+   - [ ] Implement playback controls
+   - [ ] Handle video synchronization
+   - [ ] Port frame navigation
 
-4. **LibSE Integration**
-   - [x] Set up LibSE project references
-   - [x] Port core subtitle data structures
-   - [x] Implement subtitle format handlers
-   - [x] Link subtitle processing logic
-   - [x] Set up subtitle synchronization
-
-### Phase 3: Feature Components 🟨
+### Phase 3: Feature Components ⬜
 1. **Tools and Utilities**
    - [ ] Port OCR tools
    - [ ] Implement translation features
@@ -77,10 +70,10 @@ This document outlines the plan for porting SubtitleEdit from Windows Forms to A
    - [ ] Handle file operations
 
 2. **Format Support**
-   - [x] Ensure all subtitle format support
-   - [x] Port import/export functionality
-   - [x] Handle encoding/decoding
-   - [x] Implement format conversion
+   - [ ] Ensure all subtitle format support
+   - [ ] Port import/export functionality
+   - [ ] Handle encoding/decoding
+   - [ ] Implement format conversion
 
 3. **Advanced Features**
    - [ ] Port audio processing
@@ -116,122 +109,52 @@ This document outlines the plan for porting SubtitleEdit from Windows Forms to A
 
 ## Progress Details
 
-### Completed (Phase 1 & 2)
+### Completed (Phase 1)
 1. **Project Structure**
    - Created SubtitleEdit.Avalonia project
    - Set up basic Avalonia UI files
    - Configured project references
-   - Implemented MVVM architecture
-   - Set up LibSE integration
 
 2. **MVVM Infrastructure**
    - Implemented ViewModelBase with property change notification
-   - Created MainWindowViewModel with full functionality
+   - Created MainWindowViewModel
    - Set up data binding in MainWindow
-   - Implemented AsyncRelayCommand and RelayCommand
-   - Integrated LibSE subtitle processing
 
 3. **Core Services**
    - Created service interfaces (ISubtitleService, IVideoService, ILanguageService)
-   - Implemented service classes with LibSE integration
+   - Implemented service classes with placeholder functionality
    - Set up dependency injection with ServiceLocator
-   - Added file operation handling
-   - Integrated subtitle format handlers
 
 4. **UI Components**
-   - Created complete MainWindow layout
-   - Implemented full menu system with commands
-   - Added toolbar with icons and functionality
-   - Implemented status bar with dynamic updates
-   - Added video preview component
-   - Created subtitle grid with columns
-   - Added loading overlay
-   - Implemented comprehensive keyboard shortcuts system
-   - Created detailed keyboard shortcuts documentation
-   - Integrated subtitle synchronization
-   - Added platform-specific UI optimizations
+   - Created basic MainWindow layout
+   - Implemented menu structure
+   - Added status bar and loading overlay
 
-### In Progress (Phase 3)
-1. **Tools and Utilities**
-   - [ ] Implementing OCR tools integration
-     - [ ] Port Tesseract integration
-     - [ ] Add OCR settings UI
-     - [ ] Implement OCR batch processing
-     - [ ] Add OCR language support
-   - [ ] Setting up translation service
-     - [ ] Implement translation API integration
-     - [ ] Add translation settings UI
-     - [ ] Support multiple translation providers
-   - [ ] Adding spell checking functionality
-     - [ ] Integrate spell checking engine
-     - [ ] Add custom dictionary support
-     - [ ] Implement auto-correction
-   - [ ] Implementing file operations
-     - [ ] Add drag-and-drop support
-     - [ ] Implement file watching
-     - [ ] Add recent files list
-
-2. **Format Support**
-   - [x] Porting subtitle format handlers
-   - [x] Implementing import/export functionality
-   - [x] Adding encoding/decoding support
-   - [x] Creating format conversion utilities
+### In Progress
+1. **Main Window Functionality**
+   - Implementing toolbar functionality
+   - Setting up window management
+   - Adding platform-specific window behaviors
 
 ### Next Steps
-1. Begin OCR tools integration
-   - Set up Tesseract integration
-   - Create OCR settings UI
-   - Implement OCR processing pipeline
-2. Implement translation service
-   - Add translation API integration
-   - Create translation settings UI
-   - Implement translation caching
-3. Add spell checking functionality
-   - Integrate spell checking engine
-   - Add custom dictionary support
-4. Implement file operations
-   - Add drag-and-drop support
-   - Implement file watching
-5. Port audio processing features
-   - Add audio waveform display
-   - Implement audio synchronization
-   - Add audio editing capabilities
+1. Implement actual LibSE integration in services
+2. Create subtitle grid/list view
+3. Set up video player component
+4. Add file operations handling
 
 ## Todo List (Prioritized)
 
 ### High Priority
 1. [x] Set up Avalonia project structure
 2. [x] Port main window and basic UI
-3. [x] Implement core subtitle editing features
-4. [x] Port video player component
-5. [x] Handle basic file operations
-6. [x] Integrate LibSE core functionality
-7. [x] Port subtitle format handlers
-8. [x] Implement keyboard shortcuts system
-9. [ ] Implement OCR tools
-   - [x] Create OCR service interface
-   - [x] Implement Tesseract integration
-   - [x] Create OCR settings UI
-   - [ ] Implement OCR processing pipeline
-   - [ ] Add OCR language management
-10. [ ] Add translation service
-    - [ ] Integrate translation API
-    - [ ] Create translation UI
-    - [ ] Add language support
+3. [ ] Implement core subtitle editing features
+4. [ ] Port video player component
+5. [ ] Handle basic file operations
 
 ### Medium Priority
 1. [ ] Port OCR functionality
-   - [ ] Add batch processing
-   - [ ] Implement language packs
-   - [ ] Add OCR quality settings
 2. [ ] Implement translation features
-   - [ ] Add multiple provider support
-   - [ ] Implement translation memory
-   - [ ] Add batch translation
 3. [ ] Port spell checking
-   - [ ] Add custom dictionaries
-   - [ ] Implement auto-correction
-   - [ ] Add language-specific rules
 4. [ ] Handle advanced subtitle formats
 5. [ ] Implement batch processing
 
@@ -263,8 +186,8 @@ This document outlines the plan for porting SubtitleEdit from Windows Forms to A
 
 ## Timeline
 - Phase 1: 2-3 weeks ✅ (Completed)
-- Phase 2: 4-6 weeks ✅ (Completed)
-- Phase 3: 6-8 weeks 🟨 (In Progress)
+- Phase 2: 4-6 weeks 🟨 (In Progress)
+- Phase 3: 6-8 weeks ⬜ (Not Started)
 - Phase 4: 4-5 weeks ⬜ (Not Started)
 - Phase 5: 3-4 weeks ⬜ (Not Started)
 
@@ -275,7 +198,6 @@ Total estimated time: 19-26 weeks
 2. [x] Set up development environment
 3. [x] Create initial project structure
 4. [x] Begin Phase 1 implementation
-5. [x] Complete Phase 2 implementation
-6. [ ] Start Phase 3 implementation
-7. [ ] Begin OCR tools integration
-8. [ ] Implement subtitle format handlers 
+5. [ ] Start Phase 2 implementation
+6. [ ] Begin LibSE integration
+7. [ ] Implement core subtitle editing features 
