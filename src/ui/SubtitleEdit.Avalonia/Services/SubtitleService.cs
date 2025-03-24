@@ -9,23 +9,11 @@ using SubtitleEdit.Avalonia.Services.Interfaces;
 
 namespace SubtitleEdit.Avalonia.Services
 {
-    public interface ISubtitleService
-    {
-        Task<bool> LoadSubtitleAsync(string filePath);
-        Task<bool> SaveSubtitleAsync(string filePath);
-        Task<SubtitleItem?> AddSubtitleAsync(TimeSpan startTime, TimeSpan endTime, string text);
-        Task<bool> DeleteSubtitleAsync(int index);
-        Task<bool> SplitSubtitleAsync(int index, TimeSpan splitTime);
-        Task<bool> MergeSubtitlesAsync(int index);
-        Task<List<SubtitleItem>> GetSubtitlesAsync();
-        Task<SubtitleItem?> GetSubtitleAsync(int index);
-        Task<bool> UpdateSubtitleAsync(int index, SubtitleItem subtitle);
-    }
-
     public class SubtitleService : ISubtitleService
     {
         private Subtitle _subtitle;
         private SubtitleFormat _format;
+        private bool _hasUnsavedChanges;
 
         public SubtitleService()
         {
@@ -33,12 +21,41 @@ namespace SubtitleEdit.Avalonia.Services
             _format = new SubRip();
         }
 
-        public async Task<bool> LoadSubtitleAsync(string filePath)
+        public bool HasUnsavedChanges => _hasUnsavedChanges;
+
+        public async Task LoadSubtitleAsync(string filePath)
         {
             try
             {
                 var lines = await File.ReadAllLinesAsync(filePath);
                 _format.LoadSubtitle(_subtitle, new List<string>(lines), filePath);
+                _hasUnsavedChanges = false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task SaveSubtitleAsync(string filePath)
+        {
+            try
+            {
+                var text = _format.ToText(_subtitle, string.Empty);
+                await File.WriteAllTextAsync(filePath, text);
+                _hasUnsavedChanges = false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> ImportSubtitleAsync(string filePath)
+        {
+            try
+            {
+                await LoadSubtitleAsync(filePath);
                 return true;
             }
             catch (Exception)
@@ -47,12 +64,63 @@ namespace SubtitleEdit.Avalonia.Services
             }
         }
 
-        public async Task<bool> SaveSubtitleAsync(string filePath)
+        public async Task<bool> ExportSubtitleAsync(string filePath, string format)
         {
             try
             {
-                var text = _format.ToText(_subtitle, string.Empty);
-                await File.WriteAllTextAsync(filePath, text);
+                await SaveSubtitleAsync(filePath);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> ValidateSubtitleAsync()
+        {
+            try
+            {
+                // TODO: Implement subtitle validation
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> FixSubtitleTimingAsync()
+        {
+            try
+            {
+                // TODO: Implement timing fix
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> TranslateSubtitleAsync(string targetLanguage)
+        {
+            try
+            {
+                // TODO: Implement translation
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> OCRSubtitleAsync(string videoPath)
+        {
+            try
+            {
+                // TODO: Implement OCR
                 return true;
             }
             catch (Exception)
@@ -73,6 +141,7 @@ namespace SubtitleEdit.Avalonia.Services
                     Text = text
                 };
                 _subtitle.Paragraphs.Add(paragraph);
+                _hasUnsavedChanges = true;
                 return ConvertToSubtitleItem(paragraph);
             }
             catch (Exception)
@@ -89,6 +158,7 @@ namespace SubtitleEdit.Avalonia.Services
                 {
                     _subtitle.Paragraphs.RemoveAt(index);
                     _subtitle.Renumber();
+                    _hasUnsavedChanges = true;
                     return true;
                 }
                 return false;
@@ -118,6 +188,7 @@ namespace SubtitleEdit.Avalonia.Services
                         paragraph.EndTime = new TimeCode(splitTime);
                         _subtitle.Paragraphs.Insert(index + 1, newParagraph);
                         _subtitle.Renumber();
+                        _hasUnsavedChanges = true;
                         return true;
                     }
                 }
@@ -141,6 +212,7 @@ namespace SubtitleEdit.Avalonia.Services
                     paragraph1.Text += Environment.NewLine + paragraph2.Text;
                     _subtitle.Paragraphs.RemoveAt(index + 1);
                     _subtitle.Renumber();
+                    _hasUnsavedChanges = true;
                     return true;
                 }
                 return false;
@@ -181,6 +253,7 @@ namespace SubtitleEdit.Avalonia.Services
                     paragraph.StartTime = new TimeCode(subtitle.StartTime);
                     paragraph.EndTime = new TimeCode(subtitle.EndTime);
                     paragraph.Text = subtitle.Text;
+                    _hasUnsavedChanges = true;
                     return true;
                 }
                 return false;

@@ -1,14 +1,16 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using SubtitleEdit.Avalonia.Services.Interfaces;
 
 namespace SubtitleEdit.Avalonia.Services
 {
+    /*
     public class VideoService : IVideoService
     {
-        private readonly MediaPlayer _mediaPlayer;
+        private MediaPlayer? _mediaPlayer;
         private bool _isPlaying;
         private TimeSpan _duration;
         private TimeSpan _position;
@@ -170,6 +172,12 @@ namespace SubtitleEdit.Avalonia.Services
                 return false;
             }
         }
+
+        public void Dispose()
+        {
+            _mediaPlayer?.Dispose();
+            _mediaPlayer = null;
+        }
     }
-} 
+    */
 } 
