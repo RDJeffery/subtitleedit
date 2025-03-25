@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Platform.Storage;
 using SubtitleEdit.Avalonia.Commands;
 using SubtitleEdit.Avalonia.Models;
@@ -120,9 +121,9 @@ namespace SubtitleEdit.Avalonia.ViewModels
         public MainWindowViewModel(Window? window = null)
         {
             _window = window;
-            _subtitleService = ServiceLocator.Instance.GetService<ISubtitleService>();
-            _videoService = ServiceLocator.Instance.GetService<IVideoService>();
-            _languageService = ServiceLocator.Instance.GetService<ILanguageService>();
+            _subtitleService = ServiceLocator.Current.GetService<ISubtitleService>();
+            _videoService = ServiceLocator.Current.GetService<IVideoService>();
+            _languageService = ServiceLocator.Current.GetService<ILanguageService>();
 
             OpenCommand = new AsyncRelayCommand(OpenFileAsync);
             SaveCommand = new AsyncRelayCommand(SaveFileAsync);
@@ -437,6 +438,19 @@ namespace SubtitleEdit.Avalonia.ViewModels
         {
             // TODO: Implement style dialog
             StatusMessage = "Style dialog not implemented";
+        }
+
+        public async Task HandleKeyPressAsync(KeyEventArgs e)
+        {
+            try
+            {
+                // TODO: Implement keyboard shortcuts
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error handling key press: {ex.Message}";
+            }
         }
     }
 } 

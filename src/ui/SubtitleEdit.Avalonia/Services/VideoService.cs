@@ -1,16 +1,13 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using SubtitleEdit.Avalonia.Services.Interfaces;
 
 namespace SubtitleEdit.Avalonia.Services
 {
-    /*
     public class VideoService : IVideoService
     {
-        private MediaPlayer? _mediaPlayer;
         private bool _isPlaying;
         private TimeSpan _duration;
         private TimeSpan _position;
@@ -26,17 +23,15 @@ namespace SubtitleEdit.Avalonia.Services
 
         public VideoService()
         {
-            _mediaPlayer = new MediaPlayer();
-            _mediaPlayer.PositionChanged += OnPositionChanged;
-            _mediaPlayer.DurationChanged += OnDurationChanged;
+            // TODO: Initialize video player when ready
         }
 
         public async Task LoadVideoAsync(string filePath)
         {
             try
             {
-                await _mediaPlayer.OpenAsync(new Uri(filePath));
-                _duration = _mediaPlayer.Duration;
+                // TODO: Implement video loading
+                _duration = TimeSpan.FromMinutes(2); // Placeholder
                 OnDurationChanged(this, _duration);
             }
             catch (Exception)
@@ -50,7 +45,7 @@ namespace SubtitleEdit.Avalonia.Services
         {
             try
             {
-                await _mediaPlayer.PlayAsync();
+                // TODO: Implement video playback
                 _isPlaying = true;
             }
             catch (Exception)
@@ -64,7 +59,7 @@ namespace SubtitleEdit.Avalonia.Services
         {
             try
             {
-                await _mediaPlayer.PauseAsync();
+                // TODO: Implement video pausing
                 _isPlaying = false;
             }
             catch (Exception)
@@ -78,7 +73,7 @@ namespace SubtitleEdit.Avalonia.Services
         {
             try
             {
-                await _mediaPlayer.StopAsync();
+                // TODO: Implement video stopping
                 _isPlaying = false;
                 _position = TimeSpan.Zero;
                 OnPositionChanged(this, _position);
@@ -94,7 +89,7 @@ namespace SubtitleEdit.Avalonia.Services
         {
             try
             {
-                await _mediaPlayer.SeekAsync(position);
+                // TODO: Implement video seeking
                 _position = position;
                 OnPositionChanged(this, _position);
             }
@@ -110,7 +105,7 @@ namespace SubtitleEdit.Avalonia.Services
             try
             {
                 _volume = Math.Clamp(volume, 0.0, 1.0);
-                await _mediaPlayer.SetVolumeAsync(_volume);
+                // TODO: Implement volume setting
             }
             catch (Exception)
             {
@@ -135,7 +130,7 @@ namespace SubtitleEdit.Avalonia.Services
         {
             try
             {
-                // TODO: Implement playback rate setting using LibSE
+                // TODO: Implement playback rate setting
                 await Task.Delay(100); // Placeholder
                 return true;
             }
@@ -149,7 +144,7 @@ namespace SubtitleEdit.Avalonia.Services
         {
             try
             {
-                // TODO: Implement screenshot taking using LibSE
+                // TODO: Implement screenshot taking
                 await Task.Delay(100); // Placeholder
                 return true;
             }
@@ -163,7 +158,7 @@ namespace SubtitleEdit.Avalonia.Services
         {
             try
             {
-                // TODO: Implement audio extraction using LibSE
+                // TODO: Implement audio extraction
                 await Task.Delay(100); // Placeholder
                 return true;
             }
@@ -175,9 +170,7 @@ namespace SubtitleEdit.Avalonia.Services
 
         public void Dispose()
         {
-            _mediaPlayer?.Dispose();
-            _mediaPlayer = null;
+            // TODO: Clean up resources
         }
     }
-    */
 } 

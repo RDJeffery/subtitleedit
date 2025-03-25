@@ -1,4 +1,5 @@
 using System;
+using Avalonia.Input;
 using System.Windows.Input;
 
 namespace SubtitleEdit.Avalonia.Commands
@@ -16,8 +17,8 @@ namespace SubtitleEdit.Avalonia.Commands
 
         public event EventHandler? CanExecuteChanged
         {
-            add => CommandManager.RequerySuggested += value;
-            remove => CommandManager.RequerySuggested -= value;
+            add { }
+            remove { }
         }
 
         public bool CanExecute(object? parameter)
@@ -44,8 +45,8 @@ namespace SubtitleEdit.Avalonia.Commands
 
         public event EventHandler? CanExecuteChanged
         {
-            add => CommandManager.RequerySuggested += value;
-            remove => CommandManager.RequerySuggested -= value;
+            add { }
+            remove { }
         }
 
         public bool CanExecute(object? parameter)
